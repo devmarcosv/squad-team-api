@@ -21,4 +21,10 @@ export class AuthController {
     async getProfile(@Request() req) {
         return req.user; // O usuário está disponível no objeto `req` após a autenticação
     }
+
+    @Post('request-reset')
+    async requestReset(@Body('email') email: string) {
+        await this.authService.requestPasswordReset(email);
+        return { message: 'Email de redefinição enviado' };
+    }
 }

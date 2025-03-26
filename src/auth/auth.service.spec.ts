@@ -1,10 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import { UsersService } from '../users/users.service';
+import { EmailService } from 'src/email/email.service';
 
 describe('AuthService', () => {
   let authService: AuthService;
   let usersService: UsersService;
+  let emailService: EmailService;
 
   // Mock do usuário
   const mockUser = {
@@ -34,6 +36,7 @@ describe('AuthService', () => {
 
     authService = module.get<AuthService>(AuthService);
     usersService = module.get<UsersService>(UsersService);
+    emailService = module.get<EmailService>(EmailService);
   });
 
   it('should be defined', () => {

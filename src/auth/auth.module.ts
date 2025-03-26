@@ -6,10 +6,12 @@ import { AuthController } from './auth.controller';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UsersModule } from 'src/users/users.module';
+import { EmailModule } from 'src/email/email.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    UsersModule, // Carrega as variáveis de ambiente
+    UsersModule,
+    EmailModule,
     JwtModule.register({
       secret: process.env.JWT_TOKEN, // Usa a variável de ambiente
       signOptions: { expiresIn: '1h' },

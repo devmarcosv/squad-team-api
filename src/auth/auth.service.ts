@@ -2,13 +2,16 @@ import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/co
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { v4 as uuidv4 } from 'uuid';
 import { User } from '@prisma/client';
+import { EmailService } from 'src/email/email.service';
 
 @Injectable()
 export class AuthService {
     constructor(
         private usersService: UsersService,
-        private jwtService: JwtService
+        private jwtService: JwtService,
+        private emailService: EmailService
     ) { }
 
     async validateUser(email: string, password: string): Promise<any> {
@@ -53,5 +56,15 @@ export class AuthService {
         };
 
         return this.usersService.createUser(userData);
+    }
+
+    async requestPasswordReset(email: string): Promise<void> {
+        // 1. Gerar token único
+        const token = uuidv4();
+        const expiresAt = new Date(Date.now() + 3600000); // Expira em 1 hora
+
+
+        // 3. Enviar email com o token
+        await this.emailService.sendPasswordResetEmail(email, token);
     }
 }
