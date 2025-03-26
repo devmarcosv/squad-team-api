@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { SteamModule } from './steam/steam.module';
+import { EmailModule } from './email/email.module';
 
 @Module({
   imports: [
@@ -15,7 +16,8 @@ import { SteamModule } from './steam/steam.module';
     PrismaModule,
     AuthModule,
     UsersModule,
-    SteamModule
+    SteamModule,
+    EmailModule
   ],
   controllers: [AppController],
   providers: [AppService],
