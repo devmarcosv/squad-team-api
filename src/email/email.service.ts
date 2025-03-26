@@ -19,12 +19,13 @@ export class EmailService {
     }
 
     async sendPasswordResetEmail(to: string, token: string): Promise<void> {
-        const resetUrl = `http://seu-site.com/reset-password?token=${token}`;
+        const resetUrl = `http://localhost:3000/auth/reset-password?token=${token}`;
         await this.transporter.sendMail({
             from: this.defaultFrom,
             to,
             subject: 'Redefinição de Senha',
-            html: `<p>Clique <a href="${resetUrl}">aqui</a> para redefinir sua senha.</p>`,
+            html: `<p>Clique <a href="${resetUrl}">aqui</a> para redefinir sua senha.</p></br>
+            <p> caso precise apenas do token> ${token}</p>`,
         });
     }
 

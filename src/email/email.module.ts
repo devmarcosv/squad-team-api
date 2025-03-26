@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { EmailService } from './email.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { EmailOptions } from './interfaces/IEmail.interface';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Module({
   imports: [ConfigModule],
@@ -20,6 +21,7 @@ import { EmailOptions } from './interfaces/IEmail.interface';
       inject: [ConfigService],
     },
     EmailService,
+    PrismaService
   ],
   exports: [EmailService],
 })

@@ -7,10 +7,12 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UsersModule } from 'src/users/users.module';
 import { EmailModule } from 'src/email/email.module';
+import { PrismaModule } from 'src/prisma/prisma.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
     UsersModule,
+    PrismaModule,
     EmailModule,
     JwtModule.register({
       secret: process.env.JWT_TOKEN, // Usa a variável de ambiente
