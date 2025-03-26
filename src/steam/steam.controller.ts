@@ -5,6 +5,8 @@ https://docs.nestjs.com/controllers#controllers
 import { Controller, Get, Param } from '@nestjs/common';
 import { SteamService } from './steam.service';
 
+//take
+
 @Controller('steam')
 export class SteamController {
     constructor(private readonly steamService: SteamService) { }
