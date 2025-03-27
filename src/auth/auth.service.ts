@@ -28,7 +28,10 @@ export class AuthService {
         return null
     }
 
+    //TODO: Implementar o método de login, token sendo gerado com senha incorreta
+
     async login(email: string, password: string) {
+
         const user = await this.validateUser(email, password)
 
         if (!user) {
@@ -61,14 +64,12 @@ export class AuthService {
     }
 
     async requestPasswordReset(email: string): Promise<void> {
-        // 1. Verifica se o email existe (opcional, para evitar vazamento de informações)
+
         const user = await this.prisma.user.findUnique({ where: { email } });
         if (!user) {
-            // Não revela que o email não existe (por segurança)
             return;
         }
 
-        // 2. Gera token único e data de expiração (1 hora)
         const token = uuidv4();
         const expiresAt = new Date(Date.now() + 3600000); // 1 hora
 
@@ -78,24 +79,21 @@ export class AuthService {
             create: { token, email, expiresAt },
         });
 
-        // 4. Envia email com o token
         await this.emailService.sendPasswordResetEmail(email, token);
     }
 
     async resetPassword(token: string, newPassword: string): Promise<boolean> {
-        // 1. Busca o token no banco
-        console.log(token)
+
         const resetToken = await this.prisma.passwordResetToken.findUnique({
             where: { token },
         });
 
-        // 2. Verifica se o token é válido e não expirou
         if (!resetToken || resetToken.expiresAt < new Date()) {
             return false;
         }
 
-        // 3. Criptografa a nova senha
         const hashedPassword = await bcrypt.hash(newPassword, 10);
+        console.log(hashedPassword);
 
         // 4. Atualiza a senha do usuário
         await this.prisma.user.update({
