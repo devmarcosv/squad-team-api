@@ -1,10 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import { UsersService } from '../users/users.service';
+import { EmailService } from 'src/email/email.service';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 describe('AuthService', () => {
   let authService: AuthService;
   let usersService: UsersService;
+  let emailService: EmailService;
+  let prismaService: PrismaService;
 
   // Mock do usuário
   const mockUser = {
@@ -34,6 +38,8 @@ describe('AuthService', () => {
 
     authService = module.get<AuthService>(AuthService);
     usersService = module.get<UsersService>(UsersService);
+    emailService = module.get<EmailService>(EmailService);
+    prismaService = module.get<PrismaService>(PrismaService);
   });
 
   it('should be defined', () => {
