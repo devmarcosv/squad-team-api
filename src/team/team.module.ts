@@ -3,12 +3,13 @@ import { PrismaModule } from "src/prisma/prisma.module";
 import { TeamController } from "./http/controllers/team.controller";
 import { TeamRepository } from "./database/repositories/team.repository";
 import { PrismaService } from "src/prisma/prisma.service";
+import { TeamService } from "./team.service";
 
 
 @Module({
     imports: [PrismaModule],
     controllers: [TeamController],
-    providers: [TeamRepository, PrismaService],
-    exports: [],
+    providers: [TeamRepository, TeamService, PrismaService],
+    exports: [TeamService],
 })
 export class TeamModule { }

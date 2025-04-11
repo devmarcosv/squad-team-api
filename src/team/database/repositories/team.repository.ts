@@ -20,4 +20,37 @@ export class TeamRepository {
         return this.prisma.team.findMany();
     }
 
+    async addMembers(teamId: number, membersIds: number[]) {
+        const membersTeam = membersIds.map((userId) => ({
+            userId,
+            teamId
+        }));
+
+        return this.prisma.teamMember.createMany({
+            data: membersTeam
+        });
+    }
+
+    async usersExist(userIds: number[]): Promise<boolean> {
+        const isFound = await this.prisma.user.findMany({
+            where: { id: { in: userIds } },
+            select: { id: true },
+        });
+
+        return isFound.length === userIds.length;
+    }
+
+    async findByIdWithMembers(teamId: number) {
+        return this.prisma.team.findUnique({
+            where: { id: teamId },
+            include: {
+                members: {
+                    include: {
+                        user: true, // Isso traz os dados do usuário vinculado
+                    },
+                },
+            },
+        });
+    }
+
 }
