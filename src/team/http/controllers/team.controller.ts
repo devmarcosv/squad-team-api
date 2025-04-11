@@ -25,4 +25,12 @@ export class TeamController {
     async findOne(@Param('id', ParseIntPipe) id: number) {
         return this.service.findTeamWithMembers(id);
     }
+
+    // src/team/team.controller.ts
+
+    @Get()
+    async findAll() {
+        return this.service.findAllTeamsWithMembers();
+    }
+
 }

@@ -53,4 +53,16 @@ export class TeamRepository {
         });
     }
 
+    async findAllWithMembers() {
+        return this.prisma.team.findMany({
+            include: {
+                members: {
+                    include: {
+                        user: true, // ou `select` se quiser campos específicos
+                    },
+                },
+            },
+        });
+    }
+
 }

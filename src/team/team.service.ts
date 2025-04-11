@@ -44,4 +44,11 @@ export class TeamService {
 
         return team;
     }
+
+    // src/team/team.service.ts
+
+    async findAllTeamsWithMembers() {
+        return this.repository.findAllWithMembers();
+    }
+
 }
