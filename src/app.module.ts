@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { SteamModule } from './steam/steam.module';
 import { EmailModule } from './email/email.module';
+import { TeamModule } from './team/team.module';
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import { EmailModule } from './email/email.module';
     AuthModule,
     UsersModule,
     SteamModule,
-    EmailModule
+    EmailModule,
+    TeamModule
   ],
   controllers: [AppController],
   providers: [AppService],

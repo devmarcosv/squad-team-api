@@ -8,7 +8,7 @@ export class EmailService {
     private defaultFrom: string;
 
     constructor(
-        @Inject('EMAIL_OPTIONS') private readonly options: EmailOptions, // Usando InjectionToken
+        @Inject('EMAIL_OPTIONS') private readonly options: EmailOptions,
     ) {
         this.transporter = nodemailer.createTransport({
             host: options.host,

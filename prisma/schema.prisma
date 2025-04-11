@@ -66,3 +66,14 @@ model PasswordResetToken {
   expiresAt DateTime
   createdAt DateTime @default(now())
 }
+
+model Messages {
+  id         String   @id @default(autoincrement())
+  senderId   Int
+  receiverId Int
+  content    String 
+  sent_at    DateTime
+  sender     User     @relation(fields: [senderId], references: [id])
+  receiver   User     @relation(fields: [senderId], references: [id])
+
+}

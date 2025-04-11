@@ -19,7 +19,7 @@ export class AuthController {
     @UseGuards(AuthGuard('jwt')) // Protege a rota com JWT
     @Post('profile')
     async getProfile(@Request() req) {
-        return req.user; // O usuário está disponível no objeto `req` após a autenticação
+        return req.user;
     }
 
     @Post('request-reset')
