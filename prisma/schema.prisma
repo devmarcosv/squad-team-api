@@ -24,6 +24,8 @@ model User {
   friendsAsUser      Friend[]     @relation("friendsAsUser") // Relação onde o User é o "user"
   friendsAsFriend    Friend[]     @relation("friendsAsFriend") // Relação onde o User é o "friend"
   teamMembers        TeamMember[] // Relação com TeamMember
+  sentMessages      Message[]  @relation("SentMessages")
+  receivedMessages  Message[] @relation("ReceivedMessages")
   createdAt          DateTime     @default(now())
   updatedAt          DateTime     @updatedAt
 }
@@ -67,13 +69,14 @@ model PasswordResetToken {
   createdAt DateTime @default(now())
 }
 
-model Messages {
-  id         String   @id @default(autoincrement())
+model Message {
+  id         Int      @id @default(autoincrement())
   senderId   Int
   receiverId Int
-  content    String 
-  sent_at    DateTime
-  sender     User     @relation(fields: [senderId], references: [id])
-  receiver   User     @relation(fields: [senderId], references: [id])
-
+  content    String
+  sentAt     DateTime @default(now())
+  sender     User     @relation("SentMessages", fields: [senderId], references: [id])
+  receiver   User     @relation("ReceivedMessages", fields: [receiverId], references: [id])
 }
+
+
