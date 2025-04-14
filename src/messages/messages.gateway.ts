@@ -1,4 +1,12 @@
-import { ConnectedSocket, MessageBody, OnGatewayConnection, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
+import {
+  ConnectedSocket,
+  MessageBody,
+  OnGatewayConnection,
+  OnGatewayDisconnect,
+  SubscribeMessage,
+  WebSocketGateway,
+  WebSocketServer
+} from '@nestjs/websockets';
 import { MessagesService } from './service/message.service';
 import { Server, Socket } from 'socket.io';
 import { CreateMessageDto } from './database/dto/message.dto';
@@ -6,7 +14,9 @@ import { CreateMessageDto } from './database/dto/message.dto';
 @WebSocketGateway({
   cors: {
     origin: '*',
-  }
+  },
+  namespace: '/chat',
+
 })
 export class MessagesGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
@@ -50,7 +60,6 @@ export class MessagesGateway implements OnGatewayConnection, OnGatewayDisconnect
 
     const receiverSocketId = this.onlineUsers.get(dto.receiverId);
     if (receiverSocketId) {
-      // Notifica o receptor em tempo real
       this.server.to(receiverSocketId).emit('new_message', savedMessage);
     }
 

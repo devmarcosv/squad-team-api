@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Chat com WebSocket</title>
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 2rem;
+            background-color: #f0f0f0;
+        }
+
+        #messages {
+            border: 1px solid #ccc;
+            padding: 1rem;
+            background: #fff;
+            height: 300px;
+            overflow-y: scroll;
+            margin-bottom: 1rem;
+        }
+
+        input,
+        button {
+            padding: 0.5rem;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Chat em tempo real</h1>
+
+    <label>Seu ID (userId):
+        <input type="number" id="userId" placeholder="Ex: 1">
+    </label>
+    <br><br>
+
+    <label>ID do destinatário:
+        <input type="number" id="receiverId" placeholder="Ex: 2">
+    </label>
+    <br><br>
+
+    <div id="messages"></div>
+
+    <input type="text" id="messageInput" placeholder="Digite sua mensagem...">
+    <button onclick="sendMessage()">Enviar</button>
+
+    <script>
+        let socket;
+
+        const userIdInput = document.getElementById('userId');
+        const receiverInput = document.getElementById('receiverId');
+        const messageInput = document.getElementById('messageInput');
+        const messagesDiv = document.getElementById('messages');
+
+        userIdInput.addEventListener('change', () => {
+            const userId = userIdInput.value;
+            if (userId) {
+                // Desconecta anterior, se tiver
+                if (socket) socket.disconnect();
+
+                socket = io('http://localhost:3000/chat', {
+                    query: { userId }
+                });
+
+                socket.on('connect', () => {
+                    appendMessage(`✅ Conectado como usuário ${userId}`);
+                });
+
+                socket.on('new_message', (msg) => {
+                    appendMessage(`📩 Nova mensagem de ${msg.senderId}: ${msg.content}`);
+                });
+
+                socket.on('message_sent', (msg) => {
+                    appendMessage(`📤 Você enviou: ${msg.content}`);
+                });
+            }
+        });
+
+        function sendMessage() {
+            const senderId = Number(userIdInput.value);
+            const receiverId = Number(receiverInput.value);
+            const content = messageInput.value;
+
+            if (senderId && receiverId && content && socket) {
+                socket.emit('message', {
+                    senderId,
+                    receiverId,
+                    content
+                });
+                messageInput.value = '';
+            }
+        }
+
+        function appendMessage(text) {
+            const p = document.createElement('p');
+            p.textContent = text;
+            messagesDiv.appendChild(p);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+    </script>
+</body>
+
+</html>

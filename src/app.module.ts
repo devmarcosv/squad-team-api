@@ -8,6 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 import { SteamModule } from './steam/steam.module';
 import { EmailModule } from './email/email.module';
 import { TeamModule } from './team/team.module';
+import { MessagesModule } from './messages/messages.module';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { TeamModule } from './team/team.module';
     UsersModule,
     SteamModule,
     EmailModule,
-    TeamModule
+    TeamModule,
+    MessagesModule
   ],
   controllers: [AppController],
   providers: [AppService],
